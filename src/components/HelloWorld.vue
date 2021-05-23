@@ -84,10 +84,10 @@ export default {
     },
     operand(event) {
       if (this.checkedOperand == 1) {
-        this.operand1 = event;
+        this.operand1 = +event;
         this.checked1 = "";
       } else if (this.checkedOperand == 2) {
-        this.operand2 = event;
+        this.operand2 = +event;
         this.checked2 = "";
       }
     },
