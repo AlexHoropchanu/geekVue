@@ -26,9 +26,9 @@
     </button>
     <button v-show="checked">del</button><br />
     <label>
-      <input type="radio" v-model="checked1" />
+      <input type="radio" value="1" v-model="checkedOperand" />
       <span>operand1</span>
-      <input type="radio" v-model="checked2" />
+      <input type="radio" value="2" v-model="checkedOperand" />
       <span>operand2</span>
     </label>
   </div>
@@ -40,8 +40,7 @@ export default {
   data: () => ({
     operand1: "",
     operand2: "",
-    checked1: false,
-    checked2: false,
+    checkedOperand: false,
     result: 0,
     checked: "",
     keyboard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -84,10 +83,10 @@ export default {
       }
     },
     operand(event) {
-      if (this.checked1) {
+      if (this.checkedOperand == 1) {
         this.operand1 = event;
         this.checked1 = "";
-      } else {
+      } else if (this.checkedOperand == 2) {
         this.operand2 = event;
         this.checked2 = "";
       }
