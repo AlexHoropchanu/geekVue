@@ -40,7 +40,7 @@ export default {
   data: () => ({
     operand1: "",
     operand2: "",
-    checkedOperand: false,
+    checkedOperand: "",
     result: 0,
     checked: "",
     keyboard: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
@@ -83,7 +83,7 @@ export default {
       }
     },
     operand(event) {
-      if (this.checkedOperand == 1) {
+      if (this.checkedOperand == "1") {
         this.operand1 = +event;
         this.checked1 = "";
       } else if (this.checkedOperand == 2) {
