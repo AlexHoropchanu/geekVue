@@ -1,39 +1,64 @@
 <template>
-  <div>
-    <ul
-      v-for="(item, index) in getPaymentsList"
-      :key="index"
-      :class="$style.list"
-    >
-      <li :class="$style.list__link">{{ index + 1 }}</li>
-      <li :class="$style.list__link">{{ item.date }}</li>
-      <li :class="$style.list__link">{{ item.category }}</li>
-      <li :class="$style.list__link">{{ item.price }}</li>
-    </ul>
+<div>
+  <div :class="[$style.list]"
+  v-for="(item, index) in currentElements"
+  :key="index">
+    <div>
+      {{index + 1 + '.'}}
+    </div>
+    <div>
+      {{item.date}}
+    </div>
+    <div>
+      {{item.category}}
+    </div>
+    <div>
+      {{item.price}}
+    </div>
   </div>
+  <Pagination
+  :length="getPaymentsList.length"
+  :n="n"
+  :cur="page"
+  @paginate="onPaginate"/>
+</div>
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import Pagination from './Pagination'
+import { mapGetters } from 'vuex'
+
 export default {
-  props: {},
+  components: {
+    Pagination
+  },
+  data () {
+    return {
+      page: 1,
+      n: 5
+    }
+  },
   methods: {
-    doSomething() {
-      console.log(this.items);
+    onPaginate (p) {
+      this.page = p
     }
   },
   computed: {
-    ...mapGetters(["getPaymentsList"])
+    ...mapGetters(['getPaymentsList']),
+    currentElements () {
+      const { n, page } = this
+      return this.getPaymentsList.slice(n * (page - 1), n * (page - 1) + n)
+    }
+  },
+  mounted () {
+    this.page = +this.$route.params.page || 1
   }
-};
+}
 </script>
 
-<style module>
-.list {
-  display: flex;
-  list-style-type: none;
-}
-.list__link {
-  margin-right: 100px;
+<style lang="scss" module>
+.list{
+    display: grid;
+    grid-template-columns: 30px 1fr 1fr 1fr 1fr;
 }
 </style>

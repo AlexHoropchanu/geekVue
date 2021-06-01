@@ -1,77 +1,69 @@
 <template>
-  <div>
-    <div>
-      <input placeholder="Date" v-model="date" />
-      <input placeholder="Category" v-model="category" />
-      <input placeholder="Price" v-model.number="price" />
-      <button @click="save">Save</button>
-    </div>
+  <div :class="[$style.form]">
+    <input placeholder="Дата" v-model="date"/>
+    <!-- <input placeholder="Категория" v-model="category"/> -->
+    <select v-model="category">
+      <option v-for="option in options" :key="option">
+        {{ option }}
+      </option>
+    </select>
+    <input placeholder="Сумма" v-model.number="price"/>
+    <button @click="save">Записать</button>
+    <a href="/dashboard/add/Food?value=200">Food +200</a>
+    <a href="/dashboard/add/Navigation?value=50">Navigation +50</a>
+    <a href="/dashboard/add/Entertaiment?value=2000">Entertaiment +2000</a>
   </div>
 </template>
 
 <script>
-// import { mapState } from "vuex";
-// import { mapMutations, mapGetters } from "vuex";
+const now = new Date()
 export default {
-  data() {
+  data () {
     return {
-      date: "",
-      category: "",
-      price: 0
-    };
-  },
-  props: {},
-  // computed:{
-  //   ...mapState(['paymentslist'])
-  // }
-  // computed: {
-  //   ...mapGetters(["getPaymentsListFullPrice"]), //специальный метод vuex который позволяет использовать geter из стора
-  // },
-  methods: {
-    save() {
-      if (this.date && this.category) {
-        const { date, category, price } = this;
-        this.$emit("add", { date, category, price });
-        this.date = "";
-        this.category = "";
-        this.price = 0;
-      }
+      date: '',
+      category: '',
+      price: 0,
+      options: ['Food', 'Navigation', 'Sport', 'Entertaiment', 'Education']
     }
-
-    // ...mapMutations(["setPaymentsListData"]), //cпециальный метод vuex которые принимает даные со стейта которые мы хотим изменить и позволяет в компоненте работать с даными на прямую
-
-    // fetchData() {
-    //   return [
-    //     {
-    //       date: "13.05.2021",
-    //       category: "Education",
-    //       price: 123,
-    //     },
-    //     {
-    //       date: "12.05.2021",
-    //       category: "Education",
-    //       price: 456,
-    //     },
-    //     {
-    //       date: "11.05.2021",
-    //       category: "Education",
-    //       price: 789,
-    //     },
-    //     {
-    //       date: "10.05.2021",
-    //       category: "Education",
-    //       price: 110,
-    //     },
-    //   ];
-    // },
+  },
+  methods: {
+    save () {
+      const { date, category, price } = this
+      this.$emit('add', { date, category, price })
+    },
+    save200food () {
+      this.category = this.options[0]
+      this.date = now.toLocaleDateString()
+      this.price = 200
+      this.save()
+    },
+    save50Navigation () {
+      this.category = this.options[1]
+      this.date = now.toLocaleDateString()
+      this.price = 50
+      this.save()
+    },
+    save2000Entertaiment () {
+      this.category = this.options[3]
+      this.date = now.toLocaleDateString()
+      this.price = 2000
+      this.save()
+    }
+  },
+  mounted () {
+    this.category = this.$route.params.category
+    this.price = this.$route.query.value
+    this.date = now.toLocaleDateString()
+    console.log(this.$route)
   }
-  // mounted() {
-  //   this.$store.commit("setPaymentsListData", this.fetchData()); //this.$store обращение к стору vuex .commit служит для передачи в стор и принимает 2 параметра 1 название функции мутации 2 даные которые нужно засетатьь в стор
-  // },
-  // mounted() {
-  //   this.setPaymentsListData(this.fetchData());
-  // },
-};
+}
+
 </script>
 
-<style></style>
+<style lang="scss" module>
+.form{
+  margin-left: 30px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+</style>

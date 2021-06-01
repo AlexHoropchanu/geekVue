@@ -1,47 +1,46 @@
 <template>
   <div id="app">
-    <header>
-      <h1 :class="$style.header">My personal costs</h1>
+    <header :class="[$style.header]">
+      <router-link to="dashboard">Приложение "Мои расходы"</router-link>
+      <router-link to="about">О приложении</router-link>
+      <router-link to="404">404</router-link>
     </header>
     <main>
-      <button @click="clicked">ADD NEW COST+</button>
-      <PaymentForm @add="onDataAdded" v-show="isShowed" />
-      <PaymentsList />
+      <router-view/>
     </main>
   </div>
 </template>
 
 <script>
-import PaymentsList from "./components/PaymentsList";
-import PaymentForm from "./components/PaymentForm";
-import { mapActions, mapState } from "vuex";
 
 export default {
-  name: "App",
-  components: { PaymentsList, PaymentForm },
-  data() {
+  name: 'App',
+  data () {
     return {
-      paymentsList: []
-    };
-  },
-  computed: mapState(["isShowed"]),
-  methods: {
-    ...mapActions(["fetchData"]),
-    onDataAdded(data) {
-      this.$store.commit("setDataAdded", data);
-    },
-    clicked() {
-      this.$store.commit("setIsShowed");
     }
   },
-  mounted() {
-    this.fetchData();
+  methods: {
+  },
+  mounted () {
+  },
+  computed: {
   }
-};
+}
 </script>
 
-<style module>
-.header {
-  color: red;
+<style lang="scss" module>
+.header{
+  color: greenyellow;
+  background: grey;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 50px;
+  & > a{
+    color: greenyellow;
+  }
+}
+.form{
+  margin-left: 20px;
 }
 </style>
